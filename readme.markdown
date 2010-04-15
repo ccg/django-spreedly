@@ -54,7 +54,7 @@ Installation
 	SPREEDLY_URL ='/register/'
 
 	# If you want to use your own subscription list page template:
-	# this defaults to 'subscriptions/templates/spreedly.html'
+	# this defaults to 'spreedly/templates/subscriptions.html'
 	SPREEDLY_LIST_TEMPLATE = 'path/to/your/template.html'
 
 	# if you want to restrict access to your entire site based to only users with an active subscription
