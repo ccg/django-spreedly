@@ -1,7 +1,15 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django.db import models
 from django.db.models import Q
+from django.core.mail import send_mail
+from django.contrib.auth.models import User
+from django.template.loader import render_to_string
+from django.core.urlresolvers import reverse
+from django.conf import settings
+
+import spreedly.settings as spreedly_settings
+
 
 class PlanManager(models.Manager):
     def enabled(self):
@@ -107,8 +115,45 @@ class Subscription(models.Model):
         super(Subscription, self).save(*args, **kwargs)
     
     @property
-    def subscription_status(self):
+    def ending_this_month(self):
+        return datetime.today() <= self.active_until <= datetime.today() + timedelta(days=30)
+    
+    @property
+    def subscription_active(self):
         '''gets the status based on current active status and active_until'''
         if self.active and (self.active_until > datetime.today() or active_until == None):
             return True
         return False
+        
+        
+class Gift(models.Model):
+    uuid = models.CharField(max_length=32, unique=True, db_index=True)
+    
+    from_user = models.ForeignKey(User, related_name='gifts_sent')
+    to_user = models.ForeignKey(User, related_name='gifts_received')
+    
+    plan_name = models.CharField(max_length=100)
+    message = models.TextField(blank=True)
+    
+    created_at = models.DateField(auto_now_add=True)
+    sent_at = models.DateField(blank=True, null=True)
+    
+    def get_activation_url(self):
+        return 'http://%s%s' % (spreedly_settings.SPREEDLY_SITE_URL, reverse('gift_sign_up', args=[self.uuid]))
+    
+    def send_activation_email(self):
+        if not self.sent_at: #don't spam user with invitations
+            send_mail(
+                spreedly_settings.SPREEDLY_GIFT_EMAIL_SUBJECT,
+                render_to_string(spreedly_settings.SPREEDLY_GIFT_EMAIL, {
+                    'message': self.message,
+                    'plan_name': self.plan_name,
+                    'giver': '%s (%s)' % (self.from_user, self.from_user.email),
+                    'site': spreedly_settings.SPREEDLY_SITE_URL,
+                    'register_url': self.get_activation_url()
+                }),
+                settings.DEFAULT_FROM_EMAIL,
+                [self.to_user.email,]
+            )
+            self.sent_at = datetime.today()
+            self.save()
