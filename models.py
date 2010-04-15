@@ -44,8 +44,8 @@ class Plan(models.Model):
     
     version = models.IntegerField(blank=True, default=1)
     
-    speedly_id = models.IntegerField(db_index=True, primary_key=True)
-    speedly_site_id = models.IntegerField(db_index=True, null=True)
+    spreedly_id = models.IntegerField(db_index=True, primary_key=True)
+    spreedly_site_id = models.IntegerField(db_index=True, null=True)
     
     order = models.PositiveIntegerField(null=True)
     
@@ -96,7 +96,7 @@ class Subscription(models.Model):
     active_until = models.DateTimeField(blank=True, null=True)
     token = models.CharField(max_length=100, blank=True)
     
-    trial_elegible = models.BooleanField(default=False)
+    trial_eligible = models.BooleanField(default=False)
     lifetime = models.BooleanField(default=False)
     recurring = models.BooleanField(default=False)
     active = models.BooleanField(default=False)
