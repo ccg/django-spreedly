@@ -26,19 +26,19 @@ SPREEDLY_ANONYMOUS_SHOULD_LOGIN = getattr(settings, 'SPREEDLY_ANONYMOUS_SHOULD_L
 SPREEDLY_CONFIRM_EMAIL = getattr(settings, 'SPREEDLY_CONFIRM_EMAIL', 'confirm_email.txt')
 
 # the subject for the confirmation email
-SPREEDLY_CONFIRM_EMAIL_SUBJECT = getattr(settings, 'SPREEDLY_CONFIRM_EMAIL_SUBJECT', 'complete your subscription to %s' % Site.objects.get(id=settings.SITE_ID).name)
+SPREEDLY_CONFIRM_EMAIL_SUBJECT = getattr(settings, 'SPREEDLY_CONFIRM_EMAIL_SUBJECT', 'Complete your registration')   #'complete your subscription to %s' % Site.objects.get(id=settings.SITE_ID).name)
 
 # the template to use for the confirmation email
 SPREEDLY_GIFT_EMAIL = getattr(settings, 'SPREEDLY_GIFT_EMAIL', 'gift_email.txt')
 
 # the subject for the confirmation email
-SPREEDLY_GIFT_EMAIL_SUBJECT = getattr(settings, 'SPREEDLY_GIFT_EMAIL_SUBJECT', 'gift subscription to %s' % Site.objects.get(id=settings.SITE_ID).name)
+SPREEDLY_GIFT_EMAIL_SUBJECT = getattr(settings, 'SPREEDLY_GIFT_EMAIL_SUBJECT', 'Gift subscription') #'gift subscription to %s' % Site.objects.get(id=settings.SITE_ID).name)
 
 # This template will be used after a user has signed up on your site and a confirm email has been sent to them
 SPREEDLY_EMAIL_SENT_TEMPLATE = getattr(settings, 'SPREEDLY_EMAIL_SENT_TEMPLATE', 'email_sent.html')
 
 # the url that will be used to return users from spreedly to your site.
-SPREEDLY_SITE_URL = getattr(settings, 'SPREEDLY_SITE_URL', Site.objects.get(id=settings.SITE_ID))
+SPREEDLY_SITE_URL = getattr(settings, 'SPREEDLY_SITE_URL', 'http://example.com/') #Site.objects.get(id=settings.SITE_ID))
 
 SPREEDLY_GIFT_REGISTER_TEMPLATE = getattr(settings, 'SPREEDLY_GIFT_REGISTER_TEMPLATE', 'log_in.html')
 SPREEDLY_ADMIN_GIFT_TEMPLATE = getattr(settings, 'SPREEDLY_ADMIN_GIFT_TEMPLATE', 'admin_gift.html')
