@@ -6,16 +6,16 @@ from spreedly.models import Subscription
 import spreedly.settings as spreedly_settings
 
 class SpreedlyMiddleware(object):
-    '''
-    Checks if user is legible to use the website, i.e. has an active
+    """
+    Checks if user is eligible to use the website, i.e., has an active
     subscription.
-    '''
+    """
     def process_request(self, request):
         allowed = False
         for path in spreedly_settings.SPREEDLY_ALLOWED_PATHS + [spreedly_settings.SPREEDLY_URL, settings.LOGIN_URL]:
             if request.path.startswith(path):
                 allowed = True
-        
+
         if not allowed:
             if not request.user.is_authenticated():
                 if spreedly_settings.SPREEDLY_USERS_ONLY:
